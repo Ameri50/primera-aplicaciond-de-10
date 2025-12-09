@@ -3,6 +3,7 @@ import '../../data/ai_list.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'home_design.dart';
 import 'settings_dialog.dart';
+import 'ai_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,13 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
           tool.tags.any((tag) => tag.toLowerCase().contains(s));
     }).toList();
 
-    if (filtered.isEmpty) return const EmptyState();
+    if (filtered.isEmpty) return const EmptyState(message: '');
 
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       itemCount: filtered.length,
       itemBuilder: (_, i) => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.only(bottom: 16),
         child: AiCardModern(
           item: filtered[i],
           onTap: () async {
@@ -51,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
               seedColor: Colors.blue,
               brightness: Brightness.light,
             ),
+            scaffoldBackgroundColor: const Color(0xFFF2F2F7),
           )
         : themeMode == 'dark'
             ? ThemeData.dark(useMaterial3: true).copyWith(
@@ -58,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   seedColor: Colors.blue,
                   brightness: Brightness.dark,
                 ),
+                scaffoldBackgroundColor: const Color(0xFF000000),
               )
             : (DateTime.now().hour >= 18 || DateTime.now().hour < 6)
                 ? ThemeData.dark(useMaterial3: true).copyWith(
@@ -65,44 +68,64 @@ class _HomeScreenState extends State<HomeScreen> {
                       seedColor: Colors.blue,
                       brightness: Brightness.dark,
                     ),
+                    scaffoldBackgroundColor: const Color(0xFF000000),
                   )
                 : ThemeData.light(useMaterial3: true).copyWith(
                     colorScheme: ColorScheme.fromSeed(
                       seedColor: Colors.blue,
                       brightness: Brightness.light,
                     ),
+                    scaffoldBackgroundColor: const Color(0xFFF2F2F7),
                   );
 
     return Theme(
       data: theme,
       child: Scaffold(
-        backgroundColor: theme.brightness == Brightness.dark
-            ? const Color(0xFF0A0E27)
-            : Colors.grey[50],
+        backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: const Text(
+          scrolledUnderElevation: 0,
+          title: Text(
             "AI Hub",
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 34,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.5,
+              color: theme.brightness == Brightness.dark ? Colors.white : Colors.black,
+            ),
           ),
-          centerTitle: true,
+          centerTitle: false,
           actions: [
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => SettingsDialog(
-                    currentThemeMode: themeMode,
-                    onThemeModeChanged: (mode) {
-                      if (mounted) {
-                        setState(() => themeMode = mode);
-                      }
-                    },
-                  ),
-                );
-              },
+            Container(
+              margin: const EdgeInsets.only(right: 8),
+              decoration: BoxDecoration(
+                color: theme.brightness == Brightness.dark
+                    ? Colors.white.withValues(alpha: 0.08)
+                    : Colors.black.withValues(alpha: 0.05),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.settings_rounded,
+                  color: theme.brightness == Brightness.dark
+                      ? Colors.white.withValues(alpha: 0.8)
+                      : Colors.black.withValues(alpha: 0.8),
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => SettingsDialog(
+                      currentThemeMode: themeMode,
+                      onThemeModeChanged: (mode) {
+                        if (mounted) {
+                          setState(() => themeMode = mode);
+                        }
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -116,22 +139,44 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(child: _buildAiList(context)),
           ],
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (_) => SmartSearchDialog(
-                onSearch: (query) {
-                  if (mounted) {
-                    setState(() => search = query);
-                  }
-                },
+        floatingActionButton: Container(
+          margin: const EdgeInsets.only(bottom: 8, right: 4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blue.withValues(alpha: 0.3),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
               ),
-            );
-          },
-          icon: const Icon(Icons.auto_awesome_rounded),
-          label: const Text("Buscar IA"),
-          backgroundColor: Colors.blue,
+            ],
+          ),
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => SmartSearchDialog(
+                  onSearch: (query) {
+                    if (mounted) {
+                      setState(() => search = query);
+                    }
+                  },
+                ),
+              );
+            },
+            icon: const Icon(Icons.auto_awesome_rounded, size: 22),
+            label: const Text(
+              "Buscar IA",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.3,
+              ),
+            ),
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            elevation: 0,
+          ),
         ),
       ),
     );
@@ -206,6 +251,8 @@ class _SmartSearchDialogState extends State<SmartSearchDialog> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -268,16 +315,30 @@ class _SmartSearchDialogState extends State<SmartSearchDialog> {
                       itemCount: filteredAis.length,
                       itemBuilder: (_, i) {
                         final item = filteredAis[i];
+                        final gradient = AiUtils.getGradientForAi(item.name);
+                        final initials = AiUtils.getInitialsForAi(item.name);
+
                         return ListTile(
                           leading: Container(
-                            padding: const EdgeInsets.all(8),
+                            width: 44,
+                            height: 44,
                             decoration: BoxDecoration(
-                              color: Colors.blue.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(8),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: gradient,
+                              ),
                             ),
-                            child: Icon(
-                              Icons.auto_awesome_rounded,
-                              color: isDark ? Colors.blue[300] : Colors.blue,
+                            child: Center(
+                              child: Text(
+                                initials,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
                             ),
                           ),
                           title: Text(
@@ -308,5 +369,11 @@ class _SmartSearchDialogState extends State<SmartSearchDialog> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

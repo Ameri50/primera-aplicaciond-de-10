@@ -273,18 +273,44 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gradient = _getGradientForSection(title);
+    
     return Row(
       children: [
-        Icon(icon, color: Colors.blue, size: 22),
+        Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: gradient,
+            ),
+          ),
+          child: Icon(icon, color: Colors.white, size: 18),
+        ),
         const SizedBox(width: 8),
         Text(
           title,
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
+  }
+
+  List<Color> _getGradientForSection(String title) {
+    final gradients = {
+      'Apariencia': [const Color(0xFF667EEA), const Color(0xFF764BA2)],
+      'Notificaciones': [const Color(0xFFFF6B6B), const Color(0xFFEE5A6F)],
+      'Datos': [const Color(0xFF00BCD4), const Color(0xFF0097A7)],
+      'Información': [const Color(0xFF3B82F6), const Color(0xFF1E40AF)],
+      'Mantenimiento': [const Color(0xFFFF9900), const Color(0xFFE68B00)],
+      'Avanzado': [const Color(0xFF8B5CF6), const Color(0xFF6D28D9)],
+    };
+    
+    return gradients[title] ?? [const Color(0xFF667EEA), const Color(0xFF764BA2)];
   }
 }
 
@@ -394,10 +420,17 @@ class _ToggleSetting extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.blue.withValues(alpha: 0.2),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.blue.withValues(alpha: 0.8),
+                  Colors.blue.withValues(alpha: 0.5),
+                ],
+              ),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: Colors.blue, size: 20),
+            child: Icon(icon, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -406,9 +439,9 @@ class _ToggleSetting extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   subtitle,
@@ -455,10 +488,17 @@ class _InfoTile extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.blue.withValues(alpha: 0.2),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.blue.withValues(alpha: 0.8),
+                  Colors.blue.withValues(alpha: 0.5),
+                ],
+              ),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: Colors.blue, size: 20),
+            child: Icon(icon, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -467,9 +507,9 @@ class _InfoTile extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   value,
@@ -513,10 +553,17 @@ class _ActionButton extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.orange.withValues(alpha: 0.2),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.orange.withValues(alpha: 0.8),
+                    Colors.orange.withValues(alpha: 0.5),
+                  ],
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: Colors.orange, size: 20),
+              child: Icon(icon, color: Colors.white, size: 20),
             ),
             const SizedBox(width: 12),
             Expanded(

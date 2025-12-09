@@ -3,9 +3,6 @@ import 'src/app/ai_hub_app.dart';
 
 void main() {
   runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AiHubApp(),
-    ),
+    const MaterialApp(debugShowCheckedModeBanner: false, home: AiHubApp()),
   );
 }
