@@ -1,43 +1,85 @@
 import 'package:flutter/material.dart';
 
 class AiUtils {
+  // Colores brillantes para los gradientes
+  static const List<List<Color>> brightGradients = [
+    [Color(0xFF10A37F), Color(0xFF1FB38D)], // ChatGPT - Verde
+    [Color(0xFF2088FF), Color(0xFF4AA4FF)], // GitHub - Azul
+    [Color(0xFFD97757), Color(0xFFE89474)], // Claude - Marrón
+    [Color(0xFF4285F4), Color(0xFF669DF6)], // Google - Azul claro
+    [Color(0xFFFF9900), Color(0xFFFFAD33)], // Amazon - Naranja
+    [Color(0xFF9B59B6), Color(0xFFAF7AC5)], // Midjourney - Púrpura
+    [Color(0xFFE74C3C), Color(0xFFEC7063)], // DALL-E - Rojo
+    [Color(0xFF00C4CC), Color(0xFF33D1D8)], // Canva - Cyan
+    [Color(0xFF3498DB), Color(0xFF5DADE2)], // Stable - Azul
+    [Color(0xFFFF0050), Color(0xFFFF3366)], // Adobe - Rosa
+    [Color(0xFF1FB6FF), Color(0xFF4DC4FF)], // Perplexity - Cyan
+    [Color(0xFF7B68EE), Color(0xFF9B8AEE)], // You.com - Púrpura
+    [Color(0xFFFF6B6B), Color(0xFFFF8787)], // Jasper - Rojo
+    [Color(0xFF16A085), Color(0xFF1ABC9C)], // Copy.ai - Verde
+    [Color(0xFF15C39A), Color(0xFF3BD5AE)], // Grammarly - Verde azul
+    [Color(0xFFE67E22), Color(0xFFEB984E)], // Eleven Labs - Naranja
+    [Color(0xFF8E44AD), Color(0xFFA569BD)], // Descript - Púrpura
+    [Color(0xFF34495E), Color(0xFF5D6D7B)], // Notion - Gris oscuro
+    [Color(0xFF0078D4), Color(0xFF33A3F4)], // Microsoft - Azul
+    [Color(0xFFFF4757), Color(0xFFFF6B81)], // Synthesia - Rosa
+    [Color(0xFF6C5CE7), Color(0xFF8B7AE7)], // Runway - Púrpura
+    [Color(0xFF14BF96), Color(0xFF3DD5B5)], // Khan - Verde
+  ];
+
   static List<Color> getGradientForAi(String name) {
     final lowerName = name.toLowerCase().trim();
     
-    final gradients = {
-      'chatgpt': [const Color(0xFF10A37F), const Color(0xFF0D8C6F)],
-      'github copilot': [const Color(0xFF1F6FEB), const Color(0xFF0D47A1)],
-      'claude': [const Color(0xFFD4A574), const Color(0xFFA67C52)],
-      'google gemini': [const Color(0xFF9C27B0), const Color(0xFF6A1B9A)],
-      'amazon codewhisperer': [const Color(0xFFFF9900), const Color(0xFFE68B00)],
-      'midjourney': [const Color(0xFF5B21B6), const Color(0xFF3730A3)],
-      'dall-e': [const Color(0xFF00BCD4), const Color(0xFF0097A7)],
-      'canva': [const Color(0xFF00D4FF), const Color(0xFF0099CC)],
-      'stable diffusion': [const Color(0xFFFF6B6B), const Color(0xFFEE5A6F)],
-      'adobe firefly': [const Color(0xFFFF0000), const Color(0xFFCC0000)],
-      'perplexity': [const Color(0xFF3B82F6), const Color(0xFF1E40AF)],
-      'you.com': [const Color(0xFFFF6B35), const Color(0xFFE63946)],
-      'jasper': [const Color(0xFF6D28D9), const Color(0xFF4C1D95)],
-      'copy.ai': [const Color(0xFF14B8A6), const Color(0xFF0D9488)],
-      'grammarly': [const Color(0xFF15C784), const Color(0xFF0BA156)],
-      'eleven labs': [const Color(0xFF8B5CF6), const Color(0xFF6D28D9)],
-      'descript': [const Color(0xFFFBBF24), const Color(0xFFF59E0B)],
-      'notion': [const Color(0xFF000000), const Color(0xFF404040)],
-      'microsoft copilot': [const Color(0xFF0078D4), const Color(0xFF005A9E)],
-      'synthesia': [const Color(0xFF00D4FF), const Color(0xFF0099FF)],
-      'runway': [const Color(0xFF00FF88), const Color(0xFF00CC66)],
-      'khan academy': [const Color(0xFF14BF96), const Color(0xFF0F9470)],
+    // Mapa de nombres a índices de colores
+    final nameToIndex = {
+      'chatgpt': 0,
+      'github copilot': 1,
+      'github': 1,
+      'claude': 2,
+      'google gemini': 3,
+      'gemini': 3,
+      'amazon codewhisperer': 4,
+      'amazon': 4,
+      'midjourney': 5,
+      'dall-e': 6,
+      'dalle': 6,
+      'canva ai': 7,
+      'canva': 7,
+      'stable diffusion': 8,
+      'stable': 8,
+      'adobe firefly': 9,
+      'adobe': 9,
+      'firefly': 9,
+      'perplexity': 10,
+      'you.com': 11,
+      'you': 11,
+      'jasper': 12,
+      'copy.ai': 13,
+      'copy': 13,
+      'grammarly': 14,
+      'eleven labs': 15,
+      'eleven': 15,
+      'descript': 16,
+      'notion ai': 17,
+      'notion': 17,
+      'microsoft copilot': 18,
+      'microsoft': 18,
+      'synthesia': 19,
+      'runway ml': 20,
+      'runway': 20,
+      'khan academy': 21,
+      'khan': 21,
     };
 
     // Busca coincidencia exacta primero
-    if (gradients.containsKey(lowerName)) {
-      return gradients[lowerName]!;
+    if (nameToIndex.containsKey(lowerName)) {
+      return brightGradients[nameToIndex[lowerName]!];
     }
 
-    // Si no encuentra, busca por palabras clave
-    for (var key in gradients.keys) {
+    // Busca por palabras clave
+    for (var key in nameToIndex.keys) {
       if (lowerName.contains(key) || key.contains(lowerName)) {
-        return gradients[key]!;
+        return brightGradients[nameToIndex[key]!];
       }
     }
 
@@ -46,55 +88,59 @@ class AiUtils {
   }
 
   static List<Color> _generateGradientFromName(String name) {
-    final colors = [
-      [const Color(0xFF667EEA), const Color(0xFF764BA2)],
-      [const Color(0xFFF093FB), const Color(0xFFF5576C)],
-      [const Color(0xFF4FACFE), const Color(0xFF00F2FE)],
-      [const Color(0xFFFA709A), const Color(0xFFFECE34)],
-      [const Color(0xFF30CFD0), const Color(0xFF330867)],
-      [const Color(0xFFA8EDEA), const Color(0xFFFED6E3)],
-      [const Color(0xFF9890E3), const Color(0xFFB1F83B)],
-      [const Color(0xFFFF9A56), const Color(0xFFFF6A88)],
-    ];
-    
     final hash = name.hashCode.abs();
-    return colors[hash % colors.length];
+    return brightGradients[hash % brightGradients.length];
   }
 
   static String getInitialsForAi(String name) {
-    final lowerName = name.toLowerCase().trim();
-    
     const initials = {
       'chatgpt': 'GP',
       'github copilot': 'CP',
+      'github': 'GH',
       'claude': 'CL',
       'google gemini': 'GM',
+      'gemini': 'GM',
       'amazon codewhisperer': 'CW',
+      'amazon': 'AZ',
       'midjourney': 'MJ',
       'dall-e': 'DE',
+      'dalle': 'DE',
+      'canva ai': 'CA',
       'canva': 'CA',
       'stable diffusion': 'SD',
+      'stable': 'SD',
       'adobe firefly': 'AF',
+      'adobe': 'AB',
+      'firefly': 'FF',
       'perplexity': 'PX',
       'you.com': 'YC',
+      'you': 'YO',
       'jasper': 'JS',
       'copy.ai': 'CP',
-      'grammarly': 'GM',
+      'copy': 'CP',
+      'grammarly': 'GR',
       'eleven labs': 'EL',
+      'eleven': 'EL',
       'descript': 'DS',
-      'notion': 'NA',
+      'notion ai': 'NA',
+      'notion': 'NO',
       'microsoft copilot': 'MC',
+      'microsoft': 'MS',
       'synthesia': 'SY',
-      'runway': 'RM',
+      'runway ml': 'RM',
+      'runway': 'RW',
       'khan academy': 'KA',
+      'khan': 'KH',
     };
 
+    final lowerName = name.toLowerCase().trim();
+    
     // Busca coincidencia exacta
     if (initials.containsKey(lowerName)) {
       return initials[lowerName]!;
     }
 
-    // Si no encuentra, busca por palabras clave
+    // Busca por palabras clave
     for (var key in initials.keys) {
       if (lowerName.contains(key) || key.contains(lowerName)) {
         return initials[key]!;

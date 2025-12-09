@@ -8,29 +8,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'AI Hub',
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : Colors.black,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Descubre las mejores herramientas de IA',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: isDark ? Colors.grey[400] : Colors.grey[600],
-            ),
-          ),
-        ],
-      ),
-    );
+    return const SizedBox(height: 0);
   }
 }
 
@@ -114,9 +92,7 @@ class _AiCardModernState extends State<AiCardModern> {
             child: Row(
               children: [
                 // Icono personalizado con gradiente
-                Container(
-                  width: 60,
-                  height: 60,
+                DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     gradient: LinearGradient(
@@ -124,21 +100,20 @@ class _AiCardModernState extends State<AiCardModern> {
                       end: Alignment.bottomRight,
                       colors: gradient,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: gradient[0].withValues(alpha: 0.4),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
                   ),
-                  child: Center(
-                    child: Text(
-                      initials,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                  child: SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: Center(
+                      child: Text(
+                        initials,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 26,
+                          letterSpacing: -1,
+                          height: 1.0,
+                        ),
                       ),
                     ),
                   ),

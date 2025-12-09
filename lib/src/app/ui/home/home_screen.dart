@@ -335,8 +335,9 @@ class _SmartSearchDialogState extends State<SmartSearchDialog> {
                                 initials,
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16,
+                                  letterSpacing: -0.5,
                                 ),
                               ),
                             ),
