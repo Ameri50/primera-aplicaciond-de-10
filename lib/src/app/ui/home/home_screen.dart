@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
           elevation: 0,
           scrolledUnderElevation: 0,
           title: Text(
-            "AI Hub",
+            "IA Central",
             style: TextStyle(
               fontSize: 34,
               fontWeight: FontWeight.w700,
@@ -250,8 +250,6 @@ class _SmartSearchDialogState extends State<SmartSearchDialog> {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
